@@ -23,6 +23,7 @@ local function makeInvulnerable()
                 onCharacterAdded(player.Character)
             end
         end
+    end
 end
 
 if _G.gmloaded==True then
