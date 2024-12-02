@@ -1,4 +1,5 @@
 print("Loaded")
+_G.gmloaded=True
 loadstring(game:HttpGet('https://raw.githubusercontent.com/Lucasfin000/SpaceHub/main/UESP'))()
 local invincibleHealth = 1e9
 
@@ -24,5 +25,7 @@ local function makeInvulnerable()
         end
 end
 
-
+if _G.gmloaded==True then
+    print("already loaded")
+end
 makeInvulnerable()
